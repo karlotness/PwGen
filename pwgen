@@ -52,7 +52,7 @@ def expand_word(word):
     return ''.join(chars)
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version="pwgen 0.0.1")
+    args = docopt(__doc__, version="pwgen 0.1.0")
     min_len, max_len = int(args['--minlen']), int(args['--maxlen'])
     words = []
     num_words = 0
