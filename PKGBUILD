@@ -12,5 +12,5 @@ md5sums=('SKIP')
 package() {
   mkdir -p "$pkgdir/usr/bin"
   cp pwgen "$pkgdir/usr/bin"
-  chmod +x "$pkgdir/usr/bin/pwgen"
+  chmod +rx "$pkgdir/usr/bin/pwgen"
 }
