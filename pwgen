@@ -6,22 +6,23 @@ words sourced from the Hunspell dictionary.  See:
 https://xkcd.com/936/
 
 Usage:
-  pwgen [--words=<w> | --entropy=<e>] [--noexpand] [-v | --verbose] [--minlen=<min>] [--maxlen=<max>]
+  pwgen [-v | --verbose] [--words=<w> | --entropy=<e>] [--expand=<exp>] [--minlen=<min>] [--maxlen=<max>]
   pwgen -h | --help
 
 Options:
   -h --help       Show this screen.
   --words=<w>     The number of words in the password [default: 4].
   --entropy=<e>   The minimum entropy in the password.
-  --noexpand      Disable insertion of special characters.
-  --minlen=<min>  Minimum word length (inclusive) [default: 4]
-  --maxlen=<max>  Maximum word length (inclusive) [default: 8]
+  --expand=<exp>  Probability of character replacement [default: 0.25].
+  --minlen=<min>  Minimum word length (inclusive) [default: 4].
+  --maxlen=<max>  Maximum word length (inclusive) [default: 8].
   -v --verbose    Print extra information about the password.
 """
 from docopt import docopt
 from random import SystemRandom
 random = SystemRandom()
 from math import log, ceil
+import itertools as it
 import sys, operator
 
 WORD_DICT = "/usr/share/hunspell/en_US.dic"
@@ -33,20 +34,35 @@ SUBST = {
     't': ['7'],
 }
 
-def count_expanded(word):
-    """Count number of expanded words."""
-    count = 1
-    for c in word:
-        if c in SUBST:
-            count *= len(SUBST[c]) + 1
-    return count
+def compute_word_entropy(words, expand_p):
+    entropy = 0
+    word_prob = 1 / len(words)
+    for word in words:
+        options = []
+        for c in word:
+            if c in SUBST:
+                opts = [1-expand_p]
+                for o in SUBST[c]:
+                    opts.append(expand_p/len(SUBST[c]))
+                options.append(opts)
+            else:
+                options.append([1])
+        possibilities = it.product(*options)
+        for p in possibilities:
+            prod = 1
+            for v in p:
+                prod *= v
+            pb = word_prob * prod
+            if pb != 0:
+                entropy += pb * log(pb, 2)
+    return -entropy
 
-def expand_word(word):
+def expand_word(word, expand_p):
     """Randomly choose an expansion of given word."""
     chars = []
     for c in word:
-        if c in SUBST:
-            chars.append(random.choice(SUBST[c] + [c]))
+        if c in SUBST and random.random() < expand_p:
+            chars.append(random.choice(SUBST[c]))
         else:
             chars.append(c)
     return ''.join(chars)
@@ -54,34 +70,30 @@ def expand_word(word):
 if __name__ == '__main__':
     args = docopt(__doc__, version="pwgen 0.1.0")
     min_len, max_len = int(args['--minlen']), int(args['--maxlen'])
+    expand = float(args['--expand'])
     words = []
     num_words = 0
     with open(WORD_DICT) as dict_file:
         # Load dictionary words from file. Respect length bounds
         word_set = (w.strip().split('/')[0].lower() for w in dict_file)
         words = [w for w in word_set if min_len <= len(w) <= max_len]
-        # Count the effective number of loaded words
         if len(words) <= 0:
             print("No words loaded", file=sys.stderr)
             exit(1)
-        if args['--noexpand']:
-            num_words = len(words)
-        else:
-            num_words = sum(count_expanded(w) for w in words)
-    word_entropy = log(num_words, 2)
+    word_entropy = compute_word_entropy(words, expand)
     num_gen_words = int(args['--words'])
     if args['--entropy']:
         num_gen_words = ceil(float(args['--entropy']) / word_entropy)
     sel_words = [random.choice(words) for i in range(num_gen_words)]
     plain = ''.join(w.capitalize() for w in sel_words)
     expanded = plain
-    if not args['--noexpand']:
-        expanded = ''.join(expand_word(w).capitalize()
+    if expand > 0:
+        expanded = ''.join(expand_word(w, expand).capitalize()
                            for w in sel_words)
     if not args['--verbose']:
         print(expanded)
     else:
         print("Entropy:  {:.4f} bits".format(word_entropy * num_gen_words))
         print("Plain:    {}".format(plain))
-        if not args['--noexpand']:
+        if expand > 0:
             print("Expanded: {}".format(expanded))
