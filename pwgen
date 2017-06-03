@@ -23,7 +23,7 @@ from random import SystemRandom
 random = SystemRandom()
 from math import log, ceil
 import itertools as it
-import sys, operator
+import sys
 
 WORD_DICT = "/usr/share/hunspell/en_US.dic"
 SUBST = {
