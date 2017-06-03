@@ -97,3 +97,6 @@ if __name__ == '__main__':
         print("Plain:    {}".format(plain))
         if expand > 0:
             print("Expanded: {}".format(expanded))
+            diff_str = "".join("^" if a != b else " "
+                               for (a, b) in zip(plain, expanded))
+            print("Diff:     " + diff_str)
