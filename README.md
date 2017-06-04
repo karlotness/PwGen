@@ -5,7 +5,8 @@ the [XKCD password scheme](https://xkcd.com/936/). This program
 computes the entropy in the generated passwords and allows generating
 passwords with a minimum amount of entropy or with a given number of
 words. By default, passwords have some common character substitutions
-applied, but this can be disabled.
+applied, but this can be disabled. Usage help is available with with
+`pwgen --help`.
 
 The included word list is derived from the "cracklib-small" file
 included with [cracklib](https://github.com/cracklib/cracklib).
