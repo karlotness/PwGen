@@ -25,7 +25,7 @@ from math import log, ceil
 import itertools as it
 import sys
 
-WORD_DICT = "/usr/share/hunspell/en_US.dic"
+WORD_DICT = "/usr/share/pwgen/words.txt"
 SUBST = {
     'a': ['@'],
     'e': ['3'],
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     num_words = 0
     with open(WORD_DICT) as dict_file:
         # Load dictionary words from file. Respect length bounds
-        word_set = (w.strip().split('/')[0].lower() for w in dict_file)
+        word_set = (w.strip().lower() for w in dict_file)
         words = [w for w in word_set if min_len <= len(w) <= max_len]
         if len(words) <= 0:
             print("No words loaded", file=sys.stderr)
