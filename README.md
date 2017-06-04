@@ -12,3 +12,14 @@ included with [cracklib](https://github.com/cracklib/cracklib).
 
 This project is licensed under GPLv3 or any later version. See
 LICENSE.txt for the license text.
+
+## Example Usage
+Sample usage of pwgen in verbose mode. Prints the entropy in the
+generated password as well as the original and "expanded" password.
+```
+$ pwgen -v
+Entropy:  68.3850 bits
+Plain:    RelievedDividendEchoedCubes
+Expanded: RelievedDiv!dendEchoedCubes
+Diff:                ^
+```
