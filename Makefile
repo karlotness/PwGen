@@ -15,6 +15,6 @@ install: pwgen dict/words.txt
 	cp pwgen "$(BINPREFIX)"
 	cp dict/words.txt "$(RESPREFIX)"
 	chmod 755 "$(BINPREFIX)/pwgen"
-	chmod 744 "$(RESPREFIX)/words.txt"
+	chmod 644 "$(RESPREFIX)/words.txt"
 
 .PHONY: install clean all
