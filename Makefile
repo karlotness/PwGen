@@ -10,11 +10,11 @@ clean:
 	rm dict/words.txt
 
 install: pwgen dict/words.txt
-	mkdir -p "$BINPREFIX"
-	mkdir -p "$RESPREFIX"
-	cp pwgen "$BINPREFIX"
-	cp dict/words.txt "$RESPREFIX"
-	chmod 755 "$BINPREFIX/pwgen"
-	chmod 744 "$RESPREFIX/words.txt"
+	mkdir -p "$(BINPREFIX)"
+	mkdir -p "$(RESPREFIX)"
+	cp pwgen "$(BINPREFIX)"
+	cp dict/words.txt "$(RESPREFIX)"
+	chmod 755 "$(BINPREFIX)/pwgen"
+	chmod 744 "$(RESPREFIX)/words.txt"
 
 .PHONY: install clean all
