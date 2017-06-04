@@ -1,5 +1,4 @@
 *~
-pkg/
-src/
 dict/words.txt
-pwgen-*.tar.xz
+build/*
+!build/PKGBUILD
