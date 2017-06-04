@@ -4,15 +4,17 @@ pkgrel=1
 pkgdesc="Word-based password generator"
 arch=('any')
 license=('GPL3')
-depends=('python' 'python-docopt' 'hunspell-en_US')
+depends=('python' 'python-docopt')
 makedepends=()
-source=('pwgen' 'dict/words.txt')
-md5sums=('SKIP' 'SKIP')
+source=("$pkgname"::'git+ssh://git@github.com/karlotness/PwGen')
+md5sums=('SKIP')
+
+build() {
+  cd pwgen
+  make
+}
 
 package() {
-  mkdir -p "$pkgdir/usr/bin"
-  mkdir -p "$pkgdir/usr/pwgen"
-  cp pwgen "$pkgdir/usr/bin"
-  cp words.txt "$pkgdir/usr/bin"
-  chmod +rx "$pkgdir/usr/bin/pwgen"
+  cd pwgen
+  BINPREFIX="$pkgdir/usr/bin" RESPREFIX="$pkgdir/usr/share/pwgen" make install
 }
