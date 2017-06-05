@@ -6,8 +6,8 @@ words sourced from the Hunspell dictionary.  See:
 https://xkcd.com/936/
 
 Usage:
-  pwgen [-v | --verbose] [--words=<w> | --entropy=<e>] [--expand=<exp>] [--minlen=<min>] [--maxlen=<max>]
-  pwgen -h | --help
+  kpwgen [-v | --verbose] [--words=<w> | --entropy=<e>] [--expand=<exp>] [--minlen=<min>] [--maxlen=<max>]
+  kpwgen -h | --help
 
 Options:
   -h --help       Show this screen.
@@ -68,7 +68,7 @@ def expand_word(word, expand_p):
     return ''.join(chars)
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version="pwgen 0.1.0")
+    args = docopt(__doc__, version="kpwgen 0.1.0")
     min_len, max_len = int(args['--minlen']), int(args['--maxlen'])
     expand = float(args['--expand'])
     words = []
