@@ -14,7 +14,7 @@ install: kpwgen dict/words.txt
 	mkdir -p "$(RESPREFIX)"
 	cp kpwgen "$(BINPREFIX)"
 	cp dict/words.txt "$(RESPREFIX)"
-	chmod 755 "$(BINPREFIX)/pwgen"
+	chmod 755 "$(BINPREFIX)/kpwgen"
 	chmod 644 "$(RESPREFIX)/words.txt"
 
 .PHONY: install clean all
