@@ -1,4 +1,4 @@
-pkgname=pwgen
+pkgname=kpwgen
 pkgver=0.1.0
 pkgrel=1
 pkgdesc="Word-based password generator"
@@ -10,11 +10,11 @@ source=("$pkgname"::'git+ssh://git@github.com/karlotness/PwGen')
 md5sums=('SKIP')
 
 build() {
-  cd pwgen
+  cd kpwgen
   make
 }
 
 package() {
-  cd pwgen
-  BINPREFIX="$pkgdir/usr/bin" RESPREFIX="$pkgdir/usr/share/pwgen" make install
+  cd kpwgen
+  BINPREFIX="$pkgdir/usr/bin" RESPREFIX="$pkgdir/usr/share/kpwgen" make install
 }
