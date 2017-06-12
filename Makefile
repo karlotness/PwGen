@@ -3,11 +3,11 @@ RESPREFIX ?= "/usr/share/kpwgen"
 
 all: dict/words.txt
 
-dict/words.txt: dict/words-in.txt dict/filter-words.py
-	python3 dict/filter-words.py dict/words-in.txt dict/words.txt
+dict/words.txt: dict/filter-words.py /usr/share/dict/words
+	python3 dict/filter-words.py /usr/share/dict/words dict/words.txt
 
 clean:
-	rm dict/words.txt
+	rm -f dict/words.txt
 
 install: kpwgen dict/words.txt
 	mkdir -p "$(BINPREFIX)"
