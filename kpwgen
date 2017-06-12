@@ -2,7 +2,7 @@
 """Word-based password generator.
 
 The passwords are based on the XKCD password scheme with
-words sourced from the Hunspell dictionary.  See:
+words sourced from the system dictionary. See:
 https://xkcd.com/936/
 
 Usage:
