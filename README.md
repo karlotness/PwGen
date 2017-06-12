@@ -8,9 +8,6 @@ words. By default, passwords have some common character substitutions
 applied, but this can be disabled. Usage help is available with with
 `pwgen --help`.
 
-The included word list is derived from the "cracklib-small" file
-included with [cracklib](https://github.com/cracklib/cracklib).
-
 This project is licensed under GPLv3 or any later version. See
 LICENSE.txt for the license text.
 
@@ -18,7 +15,7 @@ LICENSE.txt for the license text.
 Sample usage of pwgen in verbose mode. Prints the entropy in the
 generated password as well as the original and "expanded" password.
 ```
-$ pwgen -v
+$ kpwgen -v
 Entropy:  68.3850 bits
 Plain:    RelievedDividendEchoedCubes
 Expanded: RelievedDiv!dendEchoedCubes
