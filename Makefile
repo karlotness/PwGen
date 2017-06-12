@@ -10,11 +10,7 @@ clean:
 	rm -f dict/words.txt
 
 install: kpwgen dict/words.txt
-	mkdir -p "$(BINPREFIX)"
-	mkdir -p "$(RESPREFIX)"
-	cp kpwgen "$(BINPREFIX)"
-	cp dict/words.txt "$(RESPREFIX)"
-	chmod 755 "$(BINPREFIX)/kpwgen"
-	chmod 644 "$(RESPREFIX)/words.txt"
+	install -D -m 755 kpwgen "$(BINPREFIX)/kpwgen"
+	install -D -m 644 dict/words.txt "$(RESPREFIX)/words.txt"
 
 .PHONY: install clean all
