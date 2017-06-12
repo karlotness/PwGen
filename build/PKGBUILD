@@ -16,5 +16,5 @@ build() {
 
 package() {
   cd kpwgen
-  BINPREFIX="$pkgdir/usr/bin" RESPREFIX="$pkgdir/usr/share/kpwgen" make install
+  BINPREFIX="$pkgdir/usr/bin" RESPREFIX="$pkgdir/usr/share" make install
 }
