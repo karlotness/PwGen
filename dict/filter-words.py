@@ -1,6 +1,6 @@
 from sys import argv
 
-alpha = set("abcdefghijklmnopqrstuvwxyz")
+alpha = {chr(a) for a in range(ord('a'), ord('z') + 1)}
 word_set = set()
 
 with open(argv[1]) as words:
