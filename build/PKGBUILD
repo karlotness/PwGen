@@ -5,7 +5,7 @@ pkgdesc="Word-based password generator"
 arch=('any')
 license=('GPL3')
 depends=('python' 'python-docopt')
-makedepends=()
+makedepends=('words')
 source=("$pkgname"::'git+ssh://git@github.com/karlotness/PwGen')
 md5sums=('SKIP')
 
