@@ -6,7 +6,7 @@ arch=('any')
 license=('GPL3')
 depends=('python' 'python-docopt')
 makedepends=('words')
-source=("$pkgname"::'git+ssh://git@github.com/karlotness/PwGen')
+source=('kpwgen.tar.gz')
 md5sums=('SKIP')
 
 build() {
