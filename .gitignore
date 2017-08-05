@@ -1,5 +1,5 @@
 *~
 doc/kpwgen.1.gz
 dict/words.txt
-build/*
-!build/PKGBUILD
+dist/
+!dist/PKGBUILD
