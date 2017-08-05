@@ -24,6 +24,6 @@ dist:
 	cp LICENSE.txt Makefile README.md kpwgen dist/kpwgen
 	cp dict/filter-words.py dist/kpwgen/dict
 	cp doc/kpwgen.1 dist/kpwgen/doc
-	tar -C dist -czf dist/kpwgen.tar.gz kpwgen
+	tar -C dist -czf dist/kpwgen.tar.gz kpwgen --owner=0 --group=0
 
 .PHONY: install clean dist all
