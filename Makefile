@@ -1,10 +1,12 @@
 BINPREFIX ?= "/usr/bin"
 RESPREFIX ?= "/usr/share"
+WORDLISTS := dict/eff-large-wordlist.txt dict/us-cities.txt\
+	dict/us-states.txt
 
 all: dict/words.txt doc/kpwgen.1.gz
 
-dict/words.txt: dict/filter-words.py /usr/share/dict/words
-	python3 dict/filter-words.py /usr/share/dict/words dict/words.txt
+dict/words.txt: $(WORDLISTS)
+	dict/filter-words.sh $^ > $@
 
 doc/kpwgen.1.gz: doc/kpwgen.1
 	gzip -kf doc/kpwgen.1
@@ -22,7 +24,7 @@ dist:
 	mkdir -p dist/kpwgen/dict
 	mkdir -p dist/kpwgen/doc
 	cp LICENSE.txt Makefile README.md kpwgen dist/kpwgen
-	cp dict/filter-words.py dist/kpwgen/dict
+	cp $(WORDLISTS) dict/filter-words.sh dist/kpwgen/dict
 	cp doc/kpwgen.1 dist/kpwgen/doc
 	tar -C dist -czf dist/kpwgen.tar.gz kpwgen --owner=0 --group=0
 
