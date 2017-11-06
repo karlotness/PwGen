@@ -11,7 +11,7 @@ Usage:
 
 Options:
   -h --help       Show this screen.
-  --words=<w>     The number of words in the password [default: 4].
+  --words=<w>     The number of words in the password [default: 6].
   --entropy=<e>   The minimum entropy in the password.
   --expand=<exp>  Probability of character replacement [default: 0.25].
   -v --verbose    Print extra information about the password.
