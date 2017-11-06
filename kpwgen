@@ -6,7 +6,7 @@ words sourced from the system dictionary. See:
 https://xkcd.com/936/
 
 Usage:
-  kpwgen [-v | --verbose] [--words=<w> | --entropy=<e>] [--expand=<exp>] [--minlen=<min>] [--maxlen=<max>]
+  kpwgen [-v | --verbose] [--words=<w> | --entropy=<e>] [--expand=<exp>]
   kpwgen -h | --help
 
 Options:
@@ -14,8 +14,6 @@ Options:
   --words=<w>     The number of words in the password [default: 4].
   --entropy=<e>   The minimum entropy in the password.
   --expand=<exp>  Probability of character replacement [default: 0.25].
-  --minlen=<min>  Minimum word length (inclusive) [default: 4].
-  --maxlen=<max>  Maximum word length (inclusive) [default: 8].
   -v --verbose    Print extra information about the password.
 """
 
@@ -86,14 +84,13 @@ def expand_word(word, expand_p):
 
 if __name__ == '__main__':
     args = docopt(__doc__, version="kpwgen 0.1.0")
-    min_len, max_len = int(args['--minlen']), int(args['--maxlen'])
     expand = float(args['--expand'])
     words = []
     num_words = 0
     with open(WORD_DICT) as dict_file:
         # Load dictionary words from file. Respect length bounds
         word_set = (w.strip().lower() for w in dict_file)
-        words = [w for w in word_set if min_len <= len(w) <= max_len]
+        words = list(word_set)
         if len(words) <= 0:
             print("No words loaded", file=sys.stderr)
             exit(1)
