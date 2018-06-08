@@ -38,7 +38,7 @@ import itertools as it
 import sys
 from docopt import docopt
 
-random = SystemRandom()
+RANDOM = SystemRandom()
 
 WORD_DICT = "/usr/share/kpwgen/words.txt"
 SUBST = {
@@ -49,68 +49,73 @@ SUBST = {
     't': ['7'],
 }
 
-def compute_word_entropy(words, expand_p):
+def compute_word_entropy(dict_words, expand_p):
+    """Computes the per-word entropy of our dictionary.
+
+    Parameters
+    ----------
+    dict_words: A sequence of dictionary words.
+    expand_p: The "expansion" probability. Makes use of SUBST to
+        compute resulting entropy."""
     entropy = 0
-    word_prob = 1 / len(words)
-    for word in words:
+    word_prob = 1 / len(dict_words)
+    for word in dict_words:
         options = []
-        for c in word:
-            if c in SUBST:
+        for char in word:
+            if char in SUBST:
                 opts = [1-expand_p]
-                for o in SUBST[c]:
-                    opts.append(expand_p/len(SUBST[c]))
+                for _ in SUBST[char]:
+                    opts.append(expand_p/len(SUBST[char]))
                 options.append(opts)
             else:
                 options.append([1])
         possibilities = it.product(*options)
-        for p in possibilities:
+        for poss in possibilities:
             prod = 1
-            for v in p:
-                prod *= v
-            pb = word_prob * prod
-            if pb != 0:
-                entropy += pb * log(pb, 2)
+            for psv in poss:
+                prod *= psv
+            prob = word_prob * prod
+            if prob != 0:
+                entropy += prob * log(prob, 2)
     return -entropy
 
 def expand_word(word, expand_p):
     """Randomly choose an expansion of given word."""
     chars = []
-    for c in word:
-        if c in SUBST and random.random() < expand_p:
-            chars.append(random.choice(SUBST[c]))
+    for char in word:
+        if char in SUBST and RANDOM.random() < expand_p:
+            chars.append(RANDOM.choice(SUBST[char]))
         else:
-            chars.append(c)
+            chars.append(char)
     return ''.join(chars)
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version="kpwgen 0.1.0")
-    expand = float(args['--expand'])
-    words = []
-    num_words = 0
+    ARGS = docopt(__doc__, version="kpwgen 0.1.0")
+    EXPAND = float(ARGS['--expand'])
     with open(WORD_DICT) as dict_file:
         # Load dictionary words from file. Respect length bounds
-        word_set = (w.strip().lower() for w in dict_file)
-        words = list(word_set)
-        if len(words) <= 0:
+        WORD_SET = (w.strip().lower() for w in dict_file)
+        WORDS = list(WORD_SET)
+        if len(WORDS) <= 0:
             print("No words loaded", file=sys.stderr)
             exit(1)
-    word_entropy = compute_word_entropy(words, expand)
-    num_gen_words = int(args['--words'])
-    if args['--entropy']:
-        num_gen_words = ceil(float(args['--entropy']) / word_entropy)
-    sel_words = [random.choice(words) for i in range(num_gen_words)]
-    plain = ''.join(w.capitalize() for w in sel_words)
-    expanded = plain
-    if expand > 0:
-        expanded = ''.join(expand_word(w, expand).capitalize()
-                           for w in sel_words)
-    if not args['--verbose']:
-        print(expanded)
+    WORD_ENTROPY = compute_word_entropy(WORDS, EXPAND)
+    NUM_GEN_WORDS = int(ARGS['--words'])
+    if ARGS['--entropy']:
+        NUM_GEN_WORDS = ceil(float(ARGS['--entropy']) / WORD_ENTROPY)
+    SEL_WORDS = [RANDOM.choice(WORDS) for i in range(NUM_GEN_WORDS)]
+    PLAIN = ''.join(w.capitalize() for w in SEL_WORDS)
+    EXPANDED = PLAIN
+    if EXPAND > 0:
+        EXPANDED = ''.join(expand_word(w, EXPAND).capitalize()
+                           for w in SEL_WORDS)
+    if not ARGS['--verbose']:
+        print(EXPANDED)
     else:
-        print("Entropy:  {:.4f} bits".format(word_entropy * num_gen_words))
-        print("Plain:    {}".format(plain))
-        if expand > 0:
-            print("Expanded: {}".format(expanded))
-            diff_str = "".join("^" if a != b else " "
-                               for (a, b) in zip(plain, expanded))
-            print("Diff:     " + diff_str)
+        print("Entropy:  {:.4f} bits".format(WORD_ENTROPY * NUM_GEN_WORDS))
+        print("Plain:    {}".format(PLAIN))
+        if EXPAND > 0:
+            print("Expanded: {}".format(EXPANDED))
+            DIFF_STR = "".join("^" if a != b else " "
+                               for (a, b) in zip(PLAIN, EXPANDED))
+            print("Diff:     " + DIFF_STR)
