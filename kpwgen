@@ -96,7 +96,7 @@ if __name__ == '__main__':
         # Load dictionary words from file. Respect length bounds
         WORD_SET = (w.strip().lower() for w in dict_file)
         WORDS = list(WORD_SET)
-        if len(WORDS) <= 0:
+        if not WORDS:
             print("No words loaded", file=sys.stderr)
             exit(1)
     WORD_ENTROPY = compute_word_entropy(WORDS, EXPAND)
