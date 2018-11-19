@@ -49,6 +49,7 @@ SUBST = {
     't': ['7'],
 }
 
+
 def compute_word_entropy(dict_words, expand_p):
     """Computes the per-word entropy of our dictionary.
 
@@ -79,6 +80,7 @@ def compute_word_entropy(dict_words, expand_p):
                 entropy += prob * log(prob, 2)
     return -entropy
 
+
 def expand_word(word, expand_p):
     """Randomly choose an expansion of given word."""
     chars = []
@@ -88,6 +90,7 @@ def expand_word(word, expand_p):
         else:
             chars.append(char)
     return ''.join(chars)
+
 
 if __name__ == '__main__':
     ARGS = docopt(__doc__, version="kpwgen 0.1.0")
