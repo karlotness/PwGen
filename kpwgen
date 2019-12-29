@@ -36,7 +36,7 @@ from random import SystemRandom
 from math import log, ceil
 import itertools as it
 import sys
-from docopt import docopt
+import argparse
 
 RANDOM = SystemRandom()
 
@@ -93,8 +93,13 @@ def expand_word(word, expand_p):
 
 
 if __name__ == '__main__':
-    ARGS = docopt(__doc__, version="kpwgen 0.1.0")
-    EXPAND = float(ARGS['--expand'])
+    parser = argparse.ArgumentParser("Word-based password generator")
+    parser.add_argument("--verbose", "-v", action='store_true')
+    parser.add_argument("--words", type=int, default=6)
+    parser.add_argument("--entropy", type=float, default=None)
+    parser.add_argument("--expand", type=float, default=0.25)
+    ARGS = parser.parse_args()
+    EXPAND = ARGS.expand
     with open(WORD_DICT) as dict_file:
         # Load dictionary words from file. Respect length bounds
         WORD_SET = (w.strip().lower() for w in dict_file)
@@ -103,16 +108,16 @@ if __name__ == '__main__':
             print("No words loaded", file=sys.stderr)
             exit(1)
     WORD_ENTROPY = compute_word_entropy(WORDS, EXPAND)
-    NUM_GEN_WORDS = int(ARGS['--words'])
-    if ARGS['--entropy']:
-        NUM_GEN_WORDS = ceil(float(ARGS['--entropy']) / WORD_ENTROPY)
+    NUM_GEN_WORDS = ARGS.words
+    if ARGS.entropy:
+        NUM_GEN_WORDS = ceil(ARGS.entropy / WORD_ENTROPY)
     SEL_WORDS = [RANDOM.choice(WORDS) for i in range(NUM_GEN_WORDS)]
     PLAIN = ''.join(w.capitalize() for w in SEL_WORDS)
     EXPANDED = PLAIN
     if EXPAND > 0:
         EXPANDED = ''.join(expand_word(w, EXPAND).capitalize()
                            for w in SEL_WORDS)
-    if not ARGS['--verbose']:
+    if not ARGS.verbose:
         print(EXPANDED)
     else:
         print("Entropy:  {:.4f} bits".format(WORD_ENTROPY * NUM_GEN_WORDS))
