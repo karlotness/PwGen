@@ -93,11 +93,15 @@ def expand_word(word, expand_p):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser("Word-based password generator")
-    parser.add_argument("--verbose", "-v", action='store_true')
-    parser.add_argument("--words", type=int, default=6)
-    parser.add_argument("--entropy", type=float, default=None)
-    parser.add_argument("--expand", type=float, default=0.25)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--verbose", "-v", action='store_true',
+                        help="print extra information about the password")
+    parser.add_argument("--words", type=int, default=6,
+                        help="the number of words in the password")
+    parser.add_argument("--entropy", type=float, default=None,
+                        help="the minimum entropy in the password")
+    parser.add_argument("--expand", type=float, default=0.25,
+                        help="probability of character replacement")
     ARGS = parser.parse_args()
     EXPAND = ARGS.expand
     with open(WORD_DICT) as dict_file:
