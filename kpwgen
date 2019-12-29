@@ -1,21 +1,4 @@
 #! /usr/bin/python3
-"""Word-based password generator.
-
-The passwords are based on the XKCD password scheme with
-words sourced from the system dictionary. See:
-https://xkcd.com/936/
-
-Usage:
-  kpwgen [-v | --verbose] [--words=<w> | --entropy=<e>] [--expand=<exp>]
-  kpwgen -h | --help
-
-Options:
-  -h --help       Show this screen.
-  --words=<w>     The number of words in the password [default: 6].
-  --entropy=<e>   The minimum entropy in the password.
-  --expand=<exp>  Probability of character replacement [default: 0.25].
-  -v --verbose    Print extra information about the password.
-"""
 
 # Copyright (C) 2019 Karl Otness
 #
@@ -93,7 +76,12 @@ def expand_word(word, expand_p):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="""Word-based password generator.
+
+The passwords are based on the XKCD password scheme with
+words sourced from the system dictionary. See:
+https://xkcd.com/936/
+""")
     parser.add_argument("--verbose", "-v", action='store_true',
                         help="print extra information about the password")
     parser.add_argument("--words", type=int, default=6,
