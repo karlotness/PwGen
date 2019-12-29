@@ -4,7 +4,7 @@ pkgrel=1
 pkgdesc="Word-based password generator"
 arch=('any')
 license=('GPL3')
-depends=('python' 'python-docopt')
+depends=('python')
 source=('kpwgen.tar.gz')
 md5sums=('SKIP')
 
